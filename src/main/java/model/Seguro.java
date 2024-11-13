@@ -1,11 +1,20 @@
 package model;
 
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+
+@Entity
+@Table (name = "seguros")
 public class Seguro {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSeguro;
+
     private String nif;
     private String nombre;
     private String ape1;
