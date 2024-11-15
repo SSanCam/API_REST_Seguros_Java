@@ -1,4 +1,4 @@
-package model;
+package com.es.segurosinseguros.model;
 
 
 import jakarta.persistence.*;
@@ -7,12 +7,13 @@ import java.util.Date;
 
 
 @Entity
-@Table (name = "seguros")
+@Table(name = "seguros")
 public class Seguro {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_seguro")
     private Long idSeguro;
 
     private String nif;
@@ -21,6 +22,8 @@ public class Seguro {
     private String ape2;
     private int edad;
     private int numHijos;
+
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
     private String sexo;
     private Boolean casado;

@@ -1,9 +1,7 @@
-package model;
+package com.es.segurosinseguros.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -12,15 +10,19 @@ public class AsistenciaMedica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_asistencia_medica")
     private Long idAsistenciaMedica;
 
     @ManyToOne
-    @JoinColumn(name = "id_seguro")g
+    @JoinColumn(name = "id_seguro")
     private Seguro seguro;
 
+    @Column(name = "breve_descripcion")
     private Seguro breveDescripcion;
     private String lugar;
     private String explicacion;
+
+    @Column(name = "tipo_asistencia")
     private String tipoAsistencia;
     private LocalTime hora;
     private Double importe;
