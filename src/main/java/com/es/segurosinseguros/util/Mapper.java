@@ -20,7 +20,7 @@ public class Mapper {
 
     // 3. AsistenciaMedicaDTO -> AsistenciaMedica
     public static AsistenciaMedica DtoToEntity(AsistenciaMedicaDTO asMedDto) {
-        return null,
+        return null;
     }
 
     // 4. DTO-to-ENTITY
