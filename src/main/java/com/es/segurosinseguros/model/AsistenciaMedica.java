@@ -2,6 +2,7 @@ package com.es.segurosinseguros.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,48 +39,42 @@ public class AsistenciaMedica {
     @Column(name = "tipo_asistencia", nullable = false)
     private String tipoAsistencia;
 
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
+
     @Column(name = "hora", nullable = false)
     private LocalTime hora;
 
     @Column(name = "importe", nullable = false)
     private Double importe;
 
-    // Constructores // Getters&Setters
+    // Constructores - Getters & Setters
+
     public AsistenciaMedica() {
     }
 
-    /**
-     * Constructor con todos los atributos.
-     *
-     * @param seguro           Seguro al que pertenece la asistencia.
-     * @param breveDescripcion Breve descripción de la asistencia.
-     * @param lugar            Lugar de la asistencia.
-     * @param explicacion      Explicación detallada de la asistencia.
-     * @param tipoAsistencia   Tipo de asistencia.
-     * @param hora             Hora de la asistencia.
-     * @param importe          Importe asociado a la asistencia.
-     */
-    public AsistenciaMedica(Long id, Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, LocalTime hora, Double importe) {
+    public AsistenciaMedica(Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, LocalDate fecha, LocalTime hora, Double importe) {
+        this.seguro = seguro;
+        this.breveDescripcion = breveDescripcion;
+        this.lugar = lugar;
+        this.explicacion = explicacion;
+        this.tipoAsistencia = tipoAsistencia;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.importe = importe;
+    }
+
+    public AsistenciaMedica(Long id, Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, LocalDate fecha, LocalTime hora, Double importe) {
         this.id = id;
         this.seguro = seguro;
         this.breveDescripcion = breveDescripcion;
         this.lugar = lugar;
         this.explicacion = explicacion;
         this.tipoAsistencia = tipoAsistencia;
+        this.fecha = fecha;
         this.hora = hora;
         this.importe = importe;
     }
-
-    public AsistenciaMedica(Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, LocalTime hora, Double importe) {
-        this.seguro = seguro;
-        this.breveDescripcion = breveDescripcion;
-        this.lugar = lugar;
-        this.explicacion = explicacion;
-        this.tipoAsistencia = tipoAsistencia;
-        this.hora = hora;
-        this.importe = importe;
-    }
-
 
     public Long getId() {
         return id;
@@ -127,6 +122,14 @@ public class AsistenciaMedica {
 
     public void setTipoAsistencia(String tipoAsistencia) {
         this.tipoAsistencia = tipoAsistencia;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public LocalTime getHora() {
