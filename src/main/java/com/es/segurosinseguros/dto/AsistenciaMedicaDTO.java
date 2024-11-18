@@ -2,52 +2,44 @@ package com.es.segurosinseguros.dto;
 
 import com.es.segurosinseguros.model.Seguro;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+/**
+ * Clase que representa un objeto de transferencia de datos (DTO) para la entidad 'AsistenciaMedica'.
+ * Este DTO se utiliza para las operaciones de entrada y salida relacionadas con las asistencias médicas.
+ */
 public class AsistenciaMedicaDTO {
 
-    private Long id;
-    private Seguro seguro;
     private String breveDescripcion;
     private String lugar;
     private String explicacion;
     private String tipoAsistencia;
-    private Double importe;
+    private LocalDate fecha;
+    private LocalTime hora;
+    private double importe;
+
 
     public AsistenciaMedicaDTO() {
     }
 
-    public AsistenciaMedicaDTO(Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, Double importe) {
-        this.seguro = seguro;
+    public AsistenciaMedicaDTO(String lugar, String explicacion, String tipoAsistencia, LocalDate fecha, LocalTime hora, double importe) {
+        this.lugar = lugar;
+        this.explicacion = explicacion;
+        this.tipoAsistencia = tipoAsistencia;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.importe = importe;
+    }
+
+    public AsistenciaMedicaDTO(String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, LocalDate fecha, LocalTime hora, double importe) {
         this.breveDescripcion = breveDescripcion;
         this.lugar = lugar;
         this.explicacion = explicacion;
         this.tipoAsistencia = tipoAsistencia;
+        this.fecha = fecha;
+        this.hora = hora;
         this.importe = importe;
-    }
-
-    public AsistenciaMedicaDTO(Long id, Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, Double importe) {
-        this.id = id;
-        this.seguro = seguro;
-        this.breveDescripcion = breveDescripcion;
-        this.lugar = lugar;
-        this.explicacion = explicacion;
-        this.tipoAsistencia = tipoAsistencia;
-        this.importe = importe;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Seguro getSeguro() {
-        return seguro;
-    }
-
-    public void setSeguro(Seguro seguro) {
-        this.seguro = seguro;
     }
 
     public String getBreveDescripcion() {
@@ -82,11 +74,27 @@ public class AsistenciaMedicaDTO {
         this.tipoAsistencia = tipoAsistencia;
     }
 
-    public Double getImporte() {
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
+    }
+
+    public double getImporte() {
         return importe;
     }
 
-    public void setImporte(Double importe) {
+    public void setImporte(double importe) {
         this.importe = importe;
     }
 }

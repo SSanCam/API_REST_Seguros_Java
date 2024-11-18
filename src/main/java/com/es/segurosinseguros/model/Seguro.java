@@ -71,17 +71,17 @@ public class Seguro {
      * Constructor con todos los atributos.
      * Este constructor incluye el identificador único del seguro.
      *
-     * @param idSeguro      Identificador único del seguro.
-     * @param nif           NIF del asegurado.
-     * @param nombre        Nombre del asegurado.
-     * @param ape1          Primer apellido del asegurado.
-     * @param ape2          Segundo apellido del asegurado.
-     * @param edad          Edad del asegurado.
-     * @param numHijos      Número de hijos del asegurado.
+     * @param idSeguro Identificador único del seguro.
+     * @param nif NIF del asegurado.
+     * @param nombre Nombre del asegurado.
+     * @param ape1 Primer apellido del asegurado.
+     * @param ape2 Segundo apellido del asegurado.
+     * @param edad Edad del asegurado.
+     * @param numHijos Número de hijos del asegurado.
      * @param fechaCreacion Fecha de creación del seguro.
-     * @param sexo          Sexo del asegurado.
-     * @param casado        Estado civil del asegurado.
-     * @param embarazada    Indica si el asegurado está embarazado.
+     * @param sexo Sexo del asegurado.
+     * @param casado Estado civil del asegurado.
+     * @param embarazada Indica si el asegurado está embarazado.
      */
     public Seguro(Long idSeguro, String nif, String nombre, String ape1, String ape2, int edad, int numHijos, Date fechaCreacion, String sexo, Boolean casado, Boolean embarazada) {
         this.idSeguro = idSeguro;

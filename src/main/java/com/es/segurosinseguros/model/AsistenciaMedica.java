@@ -64,6 +64,20 @@ public class AsistenciaMedica {
         this.importe = importe;
     }
 
+    /**
+     * Constructor que inicializa todos los atributos de la clase AsistenciaMedica.
+     *
+     * @param id Identificador único de la asistencia médica.
+     * @param seguro Seguro al que está asociada la asistencia médica.
+     * @param breveDescripcion Breve descripción de la asistencia médica.
+     * @param lugar Lugar donde se realizó la asistencia médica.
+     * @param explicacion Explicación detallada de la asistencia médica.
+     * @param tipoAsistencia  Tipo de asistencia médica.
+     * @param fecha Fecha en la que ocurrió la asistencia médica.
+     * @param hora Hora en la que ocurrió la asistencia médica.
+     * @param importe Importe asociado a la asistencia médica.
+     */
+
     public AsistenciaMedica(Long id, Seguro seguro, String breveDescripcion, String lugar, String explicacion, String tipoAsistencia, LocalDate fecha, LocalTime hora, Double importe) {
         this.id = id;
         this.seguro = seguro;

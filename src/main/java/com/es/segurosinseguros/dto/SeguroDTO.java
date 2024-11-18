@@ -1,10 +1,13 @@
 package com.es.segurosinseguros.dto;
 
-import com.es.segurosinseguros.model.Seguro;
+import java.time.LocalDate;
 
+/**
+ * Clase que representa un objeto de transferencia de datos (DTO) para la entidad 'Seguro'.
+ * Este DTO se utiliza para las operaciones de entrada y salida relacionadas con los seguros médicos.
+ */
 public class SeguroDTO {
 
-    private Long idSeguro;
     private String nif;
     private String nombre;
     private String ape1;
@@ -12,14 +15,13 @@ public class SeguroDTO {
     private int edad;
     private int numHijos;
     private String sexo;
-    private Boolean casado;
-    private Boolean embarazada;
+    private boolean casado;
+    private boolean embarazada;
 
     public SeguroDTO() {
     }
 
-    public SeguroDTO(String nif, String nombre, String ape1, String ape2, int edad, int numHijos, String sexo, Boolean casado, Boolean embarazada) {
-        this.nif = nif;
+    public SeguroDTO(String nombre, String ape1, String ape2, int edad, int numHijos, String sexo, boolean casado, boolean embarazada) {
         this.nombre = nombre;
         this.ape1 = ape1;
         this.ape2 = ape2;
@@ -30,8 +32,7 @@ public class SeguroDTO {
         this.embarazada = embarazada;
     }
 
-    public SeguroDTO(Long idSeguro, String nif, String nombre, String ape1, String ape2, int edad, int numHijos, String sexo, Boolean casado, Boolean embarazada) {
-        this.idSeguro = idSeguro;
+    public SeguroDTO(String nif, String nombre, String ape1, String ape2, int edad, int numHijos, String sexo, boolean casado, boolean embarazada) {
         this.nif = nif;
         this.nombre = nombre;
         this.ape1 = ape1;
@@ -41,14 +42,6 @@ public class SeguroDTO {
         this.sexo = sexo;
         this.casado = casado;
         this.embarazada = embarazada;
-    }
-
-    public Long getIdSeguro() {
-        return idSeguro;
-    }
-
-    public void setIdSeguro(Long idSeguro) {
-        this.idSeguro = idSeguro;
     }
 
     public String getNif() {
@@ -107,19 +100,19 @@ public class SeguroDTO {
         this.sexo = sexo;
     }
 
-    public Boolean getCasado() {
+    public boolean isCasado() {
         return casado;
     }
 
-    public void setCasado(Boolean casado) {
+    public void setCasado(boolean casado) {
         this.casado = casado;
     }
 
-    public Boolean getEmbarazada() {
+    public boolean isEmbarazada() {
         return embarazada;
     }
 
-    public void setEmbarazada(Boolean embarazada) {
+    public void setEmbarazada(boolean embarazada) {
         this.embarazada = embarazada;
     }
 }
