@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * Proporciona métodos CRUD y otras operaciones personalizadas para la tabla "seguros".
  */
 @Repository
-public interface SeguroRepository extends JpaRepository<SeguroRepository, Long> {
+public interface SeguroRepository extends JpaRepository<Seguro, Long> {
 }

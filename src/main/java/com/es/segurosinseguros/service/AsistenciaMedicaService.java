@@ -2,6 +2,8 @@ package com.es.segurosinseguros.service;
 
 
 import com.es.segurosinseguros.dto.AsistenciaMedicaDTO;
+import com.es.segurosinseguros.exception.GeneralException;
+import com.es.segurosinseguros.exception.InvalidFormatException;
 import com.es.segurosinseguros.model.AsistenciaMedica;
 import com.es.segurosinseguros.repository.AsistenciaMedicaRepository;
 import com.es.segurosinseguros.util.Mapper;
@@ -16,8 +18,6 @@ public class AsistenciaMedicaService {
 
     @Autowired
     private AsistenciaMedicaRepository repository;
-
-    //CRUD
 
     /**
      * CREATE
@@ -37,7 +37,7 @@ public class AsistenciaMedicaService {
     }
 
     // READ
-    public AsistenciaMedicaDTO getById(String id) throws BackingStoreException {
+    public AsistenciaMedicaDTO getById(String id) throws BackingStoreException, GeneralException {
         try {
             Long idL = Long.parseLong(id);
 
@@ -48,16 +48,40 @@ public class AsistenciaMedicaService {
             return Mapper.entityToDTO(asistenciaMedica);
 
         } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
+            throw new InvalidFormatException("El formato id es inválido: " + e.getMessage());
         } catch (EntityNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new EntityNotFoundException("No se encontró la entidad solicitada: " + e.getMessage());
         } catch (Exception e) {
-            throw new BaseDeDatosException("Error inesperado en la base de datos", e);
+            throw new GeneralException("Error inesperado en la base de datos: " + e.getMessage());
         }
     }
 
     // UPDATE
+    public AsistenciaMedicaDTO modify(String id, AsistenciaMedicaDTO asistenciaMedicaDTO) {
+        try {
+            if (asistenciaMedicaDTO != null) {
+                Long idL = Long.parseLong(id);
 
+                AsistenciaMedica asMedExst = repository
+                        .findById(idL)
+                        .orElseThrow(() -> new EntityNotFoundException("No se encuentra la Asistencia Médica con id " + id));
+                asMedExst.setSeguro(asistenciaMedicaDTO.getSeguro());
+                asMedExst.setBreveDescripcion(asistenciaMedicaDTO.getBreveDescripcion());
+                asMedExst.setLugar(asistenciaMedicaDTO.getLugar());
+                asMedExst.setExplicacion(asistenciaMedicaDTO.getExplicacion());
+                asMedExst.setTipoAsistencia(asistenciaMedicaDTO.getTipoAsistencia());
+                asMedExst.setImporte(asistenciaMedicaDTO.getImporte());
+
+                repository.save(asMedExst);
+                return Mapper.entityToDTO(asMedExst);
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("ID no válido: " + id, e);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Error al actualizar en la base de datos: Asistencia Médica no encontrada", e);
+        }
+        return null;
+    }
     // DELETE
 
     // GETALL
