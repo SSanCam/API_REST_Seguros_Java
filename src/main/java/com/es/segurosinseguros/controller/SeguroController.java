@@ -54,7 +54,7 @@ public class SeguroController {
             throw new BadRequestException("El ID no puede ser nulo o vacío.");
         }
         SeguroDTO seguroDTO = service.getById(id);
-        return ResponseEntity.ok(seguroDTO);
+        return ResponseEntity.status(201).body(seguroDTO);
     }
 
     /**
@@ -72,7 +72,7 @@ public class SeguroController {
             throw new BadRequestException("El ID no puede ser nulo o vacío.");
         }
         SeguroDTO seguroModificado = service.modify(id, seguroDTO);
-        return ResponseEntity.ok(seguroModificado);
+        return ResponseEntity.status(201).body(seguroModificado);
     }
 
     /**
@@ -99,6 +99,6 @@ public class SeguroController {
     @GetMapping("/")
     public ResponseEntity<List<SeguroDTO>> getAll() {
         List<SeguroDTO> listaSeguros = service.getAll();
-        return ResponseEntity.ok(listaSeguros);
+        return ResponseEntity.status(201).body(listaSeguros);
     }
 }
