@@ -23,6 +23,23 @@ public class SeguroController {
     private SeguroService service;
 
     /**
+     * CREATE - Crear un nuevo seguro.
+     *
+     * @param seguroDTO Objeto {@link SeguroDTO} con los datos del seguro a crear.
+     * @return Objeto {@link SeguroDTO} con los datos del seguro creado.
+     * @throws BadRequestException Si los datos proporcionados son nulos o inválidos.
+     * @throws GeneralException    Si ocurre un error inesperado en la capa de servicio.
+     */
+    @PostMapping("/")
+    public ResponseEntity<SeguroDTO> create(@RequestBody SeguroDTO seguroDTO) throws GeneralException {
+        if (seguroDTO == null) {
+            throw new BadRequestException("Los datos del seguro no pueden ser nulos.");
+        }
+        SeguroDTO seguroCreado = service.insert(seguroDTO);
+        return ResponseEntity.status(201).body(seguroCreado); // HTTP 201 - Created
+    }
+
+    /**
      * READ - Obtener un seguro por su identificador.
      *
      * @param id Identificador del seguro.
