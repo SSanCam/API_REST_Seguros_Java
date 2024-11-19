@@ -4,6 +4,7 @@ package com.es.segurosinseguros.service;
 import com.es.segurosinseguros.dto.AsistenciaMedicaDTO;
 import com.es.segurosinseguros.exception.GeneralException;
 import com.es.segurosinseguros.exception.InternalServerErrorException;
+import com.es.segurosinseguros.exception.InvalidArgumentException;
 import com.es.segurosinseguros.exception.InvalidFormatException;
 import com.es.segurosinseguros.model.AsistenciaMedica;
 import com.es.segurosinseguros.repository.AsistenciaMedicaRepository;
@@ -31,15 +32,23 @@ public class AsistenciaMedicaService {
      *
      * @param asistenciaMedicaDTO el objeto DTO de Asistencia Médica que contiene los datos a guardar.
      * @return el objeto DTO de Asistencia Médica con los datos almacenados,
-     * incluyendo el identificador generado, o {@code null} si el DTO proporcionado es {@code null}.
+     * incluyendo el identificador generado.
+     * @throws InvalidArgumentException Si el DTO proporcionado es nulo.
+     * @throws GeneralException Si ocurre un error inesperado en la base de datos.
      */
-    public AsistenciaMedicaDTO insert(AsistenciaMedicaDTO asistenciaMedicaDTO) {
-        if (asistenciaMedicaDTO != null) {
+    public AsistenciaMedicaDTO insert(AsistenciaMedicaDTO asistenciaMedicaDTO) throws GeneralException {
+        if (asistenciaMedicaDTO == null) {
+            throw new InvalidArgumentException("El DTO proporcionado no puede ser nulo.");
+        }
+        try {
             AsistenciaMedica asMed = Mapper.DtoToEntity(asistenciaMedicaDTO);
             repository.save(asMed);
             return Mapper.entityToDTO(asMed);
+        } catch (Exception e) {
+            throw new GeneralException("Error al guardar la asistencia médica en la base de datos." + e.getMessage());
         }
-        return null;
+
+
     }
 
     /**
@@ -48,7 +57,7 @@ public class AsistenciaMedicaService {
      *
      * @param id Identificador de la asistencia médica.
      * @return Objeto DTO de Asistencia Médica correspondiente al ID proporcionado.
-     * @throws InvalidFormatException Si el formato del ID es inválido.
+     * @throws InvalidFormatException  Si el formato del ID es inválido.
      * @throws EntityNotFoundException Si no se encuentra la asistencia médica con el ID dado.
      * @throws GeneralException Si ocurre un error inesperado en la base de datos.
      */
@@ -78,35 +87,36 @@ public class AsistenciaMedicaService {
      * @param id Identificador de la asistencia médica a actualizar.
      * @param asistenciaMedicaDTO Objeto DTO de Asistencia Médica con los datos actualizados.
      * @return Objeto DTO de Asistencia Médica con los datos actualizados.
-     * @throws InvalidFormatException Si el formato del ID es inválido.
-     * @throws EntityNotFoundException Si no se encuentra la asistencia médica con el ID dado.
-     * @throws IllegalArgumentException Si el DTO proporcionado es nulo.
+     * @throws InvalidFormatException   Si el formato del ID es inválido.
+     * @throws EntityNotFoundException  Si no se encuentra la asistencia médica con el ID dado.
+     * @throws InvalidArgumentException Si el DTO proporcionado es nulo.
      * @throws GeneralException Si ocurre un error inesperado en la base de datos.
      */
-    public AsistenciaMedicaDTO modify(String id, AsistenciaMedicaDTO asistenciaMedicaDTO) {
+    public AsistenciaMedicaDTO modify(String id, AsistenciaMedicaDTO asistenciaMedicaDTO) throws GeneralException, InvalidFormatException {
         try {
-            if (asistenciaMedicaDTO != null) {
-                Long idL = Long.parseLong(id);
+            Long idL = Long.parseLong(id);
 
-                AsistenciaMedica asMedExst = repository
-                        .findById(idL)
-                        .orElseThrow(() -> new EntityNotFoundException("No se encuentra la Asistencia Médica con id " + id));
-                // Actualiza los campos de la entidad existente con los valores del DTO
-                asMedExst.setBreveDescripcion(asistenciaMedicaDTO.getBreveDescripcion());
-                asMedExst.setLugar(asistenciaMedicaDTO.getLugar());
-                asMedExst.setExplicacion(asistenciaMedicaDTO.getExplicacion());
-                asMedExst.setTipoAsistencia(asistenciaMedicaDTO.getTipoAsistencia());
-                asMedExst.setImporte(asistenciaMedicaDTO.getImporte());
+            AsistenciaMedica asMedExst = repository
+                    .findById(idL)
+                    .orElseThrow(() -> new EntityNotFoundException("No se encuentra la Asistencia Médica con ID " + id));
 
-                repository.save(asMedExst);
-                return Mapper.entityToDTO(asMedExst);
-            }
+            // Actualiza los campos de la entidad existente con los valores del DTO
+            asMedExst.setBreveDescripcion(asistenciaMedicaDTO.getBreveDescripcion());
+            asMedExst.setLugar(asistenciaMedicaDTO.getLugar());
+            asMedExst.setExplicacion(asistenciaMedicaDTO.getExplicacion());
+            asMedExst.setTipoAsistencia(asistenciaMedicaDTO.getTipoAsistencia());
+            asMedExst.setImporte(asistenciaMedicaDTO.getImporte());
+
+            repository.save(asMedExst);
+            return Mapper.entityToDTO(asMedExst);
+
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ID no válido: " + id, e);
+            throw new InvalidFormatException("El formato del ID es inválido: " );
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Error al actualizar en la base de datos: Asistencia Médica no encontrada", e);
+            throw new EntityNotFoundException("No se encontró la asistencia médica con ID: " + id, e);
+        } catch (Exception e) {
+            throw new GeneralException("Error inesperado al actualizar la asistencia médica.");
         }
-        return null;
     }
 
     /**
@@ -114,10 +124,11 @@ public class AsistenciaMedicaService {
      * Elimina una asistencia médica por su identificador.
      *
      * @param id Identificador de la asistencia médica a eliminar.
-     * @throws InvalidFormatException Si el formato del ID es inválido.
+     * @throws InvalidFormatException  Si el formato del ID es inválido.
      * @throws EntityNotFoundException Si no se encuentra la asistencia médica con el ID dado.
+     * @throws GeneralException        Si ocurre un error inesperado en la base de datos.
      */
-    public void delete(String id)  {
+    public void delete(String id) throws GeneralException, InvalidFormatException {
         try {
             Long idL = Long.parseLong(id);
             if (!repository.existsById(idL)) {
@@ -125,9 +136,12 @@ public class AsistenciaMedicaService {
             }
             repository.deleteById(idL);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ID no válido: " + id, e);
+            throw new InvalidFormatException("El formato del ID es inválido: ");
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("No se encontró la asistencia médica con ID: " + id, e);
+        } catch (Exception e) {
+            throw new GeneralException("Error inesperado al eliminar la asistencia médica.");
         }
-
     }
 
 
@@ -137,7 +151,8 @@ public class AsistenciaMedicaService {
      *
      * @return Lista de objetos DTO de Asistencia Médica.
      * @throws InternalServerErrorException Si ocurre un error inesperado al acceder a la base de datos.
-     */    public List<AsistenciaMedicaDTO> listaAsistenciasMedicas() {
+     */
+    public List<AsistenciaMedicaDTO> listaAsistenciasMedicas() {
         try {
 
             List<AsistenciaMedica> listaAsistenciasMedicas = repository.findAll();
