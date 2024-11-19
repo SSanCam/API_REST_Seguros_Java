@@ -88,7 +88,7 @@ public class SeguroService {
      * @throws InvalidArgumentException Si el DTO proporcionado es nulo.
      * @throws GeneralException         Si ocurre un error inesperado en la base de datos.
      */
-    public SeguroDTO update(String id, SeguroDTO seguroDTO) throws GeneralException, InvalidFormatException {
+    public SeguroDTO modify(String id, SeguroDTO seguroDTO) throws GeneralException, InvalidFormatException {
         if (seguroDTO == null) {
             throw new InvalidArgumentException("El DTO proporcionado no puede ser nulo.");
         }
