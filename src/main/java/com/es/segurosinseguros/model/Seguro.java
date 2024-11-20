@@ -28,16 +28,16 @@ public class Seguro {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "apellido_1", nullable = false)
+    @Column(name = "ape1", nullable = false)
     private String ape1;
 
-    @Column(name = "apellido_2")
+    @Column(name = "ape2")
     private String ape2;
 
     @Column(name = "edad", nullable = false)
     private int edad;
 
-    @Column(name = "numero_hijos", nullable = false)
+    @Column(name = "numHijos", nullable = false)
     private int numHijos;
 
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
@@ -46,7 +46,7 @@ public class Seguro {
     @Column(name = "sexo", nullable = false)
     private String sexo;
 
-    @Column(name = "estado_civil", nullable = false)
+    @Column(name = "casado", nullable = false)
     private Boolean casado;
 
     @Column(name = "embarazada", nullable = false)
