@@ -33,15 +33,40 @@ public class SeguroController {
      */
     @PostMapping("/")
     public ResponseEntity<SeguroDTO> create(@RequestBody SeguroDTO seguroDTO) throws GeneralException {
-        if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
-            throw new BadRequestException("El formato del NIF no es válido");
-        }
         if (seguroDTO == null) {
             throw new BadRequestException("Los datos del seguro no pueden ser nulos.");
         }
+        // Validación de NIF
+        if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
+            throw new BadRequestException("El campo NIF no tiene un formato válido.");
+        }
+        // Validación del nombre
+        if (seguroDTO.getNombre() == null || seguroDTO.getNombre().isBlank()) {
+            throw new BadRequestException("El campo 'nombre' no puede estar vacío.");
+        }
+        // Validación ape1
+        if (seguroDTO.getNombre() == null || seguroDTO.getNombre().isBlank()) {
+            throw new BadRequestException("El campo 'ape1' no puede estar vacío.");
+        }
+        // Validación edad
+        if (seguroDTO.getEdad() < 0 || seguroDTO.getEdad() < 18) {
+            throw new BadRequestException("No es posible ser menor de edad para hacer un seguro");
+        }
+        // Validación número de hijos y estado vicil
+        if (seguroDTO.getNumHijos() < 0) {
+            throw new BadRequestException("El campo 'numHijos' no puede ser menor a 0.");
+        }
+        if (seguroDTO.getNumHijos() > 0 && !seguroDTO.isCasado()) {
+            throw new BadRequestException("Un seguro no puede registrar hijos si no está casado.");
+        }
+        // Validación embarazada
+        if ("Hombre".equalsIgnoreCase(seguroDTO.getSexo()) && seguroDTO.isEmbarazada()) {
+            throw new BadRequestException("El campo 'embarazada' no puede ser true si el asegurado es hombre.");
+        }
 
+        // Creación del seguro.
         SeguroDTO seguroCreado = service.insert(seguroDTO);
-        return ResponseEntity.status(201).body(seguroCreado); // HTTP 201 - Created
+        return ResponseEntity.status(201).body(seguroCreado);
     }
 
     /**
@@ -65,7 +90,7 @@ public class SeguroController {
     /**
      * UPDATE - Actualizar un seguro existente.
      *
-     * @param id Identificador del seguro a actualizar.
+     * @param id        Identificador del seguro a actualizar.
      * @param seguroDTO Objeto {@link SeguroDTO} con los datos actualizados.
      * @return Objeto {@link SeguroDTO} actualizado.
      * @throws BadRequestException     Si el ID es nulo o los datos proporcionados son inválidos.

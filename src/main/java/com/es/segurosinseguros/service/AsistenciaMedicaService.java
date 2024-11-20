@@ -47,8 +47,6 @@ public class AsistenciaMedicaService {
         } catch (Exception e) {
             throw new GeneralException("Error al guardar la asistencia médica en la base de datos." + e.getMessage());
         }
-
-
     }
 
     /**

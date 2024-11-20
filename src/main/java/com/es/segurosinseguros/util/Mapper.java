@@ -5,6 +5,14 @@ import com.es.segurosinseguros.dto.SeguroDTO;
 import com.es.segurosinseguros.model.AsistenciaMedica;
 import com.es.segurosinseguros.model.Seguro;
 
+/**
+ * Clase utilitaria para mapear entre entidades y DTOs.
+ * Proporciona métodos estáticos para convertir objetos de las entidades {@link Seguro} y {@link AsistenciaMedica}
+ * a sus respectivos DTOs ({@link SeguroDTO} y {@link AsistenciaMedicaDTO}), y viceversa.
+ *
+ * <p>Esta clase simplifica la transferencia de datos entre las capas de servicio y controlador,
+ * asegurando que solo se expongan los datos necesarios en cada contexto.</p>
+ */
 public class Mapper {
 
     /**
