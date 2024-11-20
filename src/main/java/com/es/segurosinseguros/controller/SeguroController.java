@@ -5,6 +5,7 @@ import com.es.segurosinseguros.exception.BadRequestException;
 import com.es.segurosinseguros.exception.EntityNotFoundException;
 import com.es.segurosinseguros.exception.GeneralException;
 import com.es.segurosinseguros.service.SeguroService;
+import org.hibernate.annotations.processing.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +33,13 @@ public class SeguroController {
      */
     @PostMapping("/")
     public ResponseEntity<SeguroDTO> create(@RequestBody SeguroDTO seguroDTO) throws GeneralException {
+        if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
+            throw new BadRequestException("El formato del NIF no es válido");
+        }
         if (seguroDTO == null) {
             throw new BadRequestException("Los datos del seguro no pueden ser nulos.");
         }
+
         SeguroDTO seguroCreado = service.insert(seguroDTO);
         return ResponseEntity.status(201).body(seguroCreado); // HTTP 201 - Created
     }
@@ -60,7 +65,7 @@ public class SeguroController {
     /**
      * UPDATE - Actualizar un seguro existente.
      *
-     * @param id        Identificador del seguro a actualizar.
+     * @param id Identificador del seguro a actualizar.
      * @param seguroDTO Objeto {@link SeguroDTO} con los datos actualizados.
      * @return Objeto {@link SeguroDTO} actualizado.
      * @throws BadRequestException     Si el ID es nulo o los datos proporcionados son inválidos.
@@ -68,6 +73,10 @@ public class SeguroController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<SeguroDTO> update(@PathVariable String id, @RequestBody SeguroDTO seguroDTO) throws EntityNotFoundException, GeneralException {
+        if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
+            throw new BadRequestException("El formato del NIF no es válido");
+        }
+
         if (id == null || id.isBlank()) {
             throw new BadRequestException("El ID no puede ser nulo o vacío.");
         }
