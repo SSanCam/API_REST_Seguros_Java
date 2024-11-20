@@ -45,7 +45,7 @@ public class SeguroController {
             throw new BadRequestException("El campo 'nombre' no puede estar vacío.");
         }
         // Validación ape1
-        if (seguroDTO.getNombre() == null || seguroDTO.getNombre().isBlank()) {
+        if (seguroDTO.getNombre() == null || seguroDTO.getApe1().isBlank()) {
             throw new BadRequestException("El campo 'ape1' no puede estar vacío.");
         }
         // Validación edad
@@ -84,7 +84,7 @@ public class SeguroController {
             throw new BadRequestException("El ID no puede ser nulo o vacío.");
         }
         SeguroDTO seguroDTO = service.getById(id);
-        return ResponseEntity.status(201).body(seguroDTO);
+        return ResponseEntity.ok(seguroDTO);
     }
 
     /**
@@ -98,13 +98,37 @@ public class SeguroController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<SeguroDTO> update(@PathVariable String id, @RequestBody SeguroDTO seguroDTO) throws EntityNotFoundException, GeneralException {
-        if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
-            throw new BadRequestException("El formato del NIF no es válido");
-        }
-
         if (id == null || id.isBlank()) {
             throw new BadRequestException("El ID no puede ser nulo o vacío.");
         }
+        // Validación de NIF
+        if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
+            throw new BadRequestException("El campo NIF no tiene un formato válido.");
+        }
+        // Validación del nombre
+        if (seguroDTO.getNombre() == null || seguroDTO.getNombre().isBlank()) {
+            throw new BadRequestException("El campo 'nombre' no puede estar vacío.");
+        }
+        // Validación ape1
+        if (seguroDTO.getNombre() == null || seguroDTO.getApe1().isBlank()) {
+            throw new BadRequestException("El campo 'ape1' no puede estar vacío.");
+        }
+        // Validación edad
+        if (seguroDTO.getEdad() < 0 || seguroDTO.getEdad() < 18) {
+            throw new BadRequestException("No es posible ser menor de edad para hacer un seguro");
+        }
+        // Validación número de hijos y estado vicil
+        if (seguroDTO.getNumHijos() < 0) {
+            throw new BadRequestException("El campo 'numHijos' no puede ser menor a 0.");
+        }
+        if (seguroDTO.getNumHijos() > 0 && !seguroDTO.isCasado()) {
+            throw new BadRequestException("Un seguro no puede registrar hijos si no está casado.");
+        }
+        // Validación embarazada
+        if ("Hombre".equalsIgnoreCase(seguroDTO.getSexo()) && seguroDTO.isEmbarazada()) {
+            throw new BadRequestException("El campo 'embarazada' no puede ser true si el asegurado es hombre.");
+        }
+
         SeguroDTO seguroModificado = service.modify(id, seguroDTO);
         return ResponseEntity.status(201).body(seguroModificado);
     }
@@ -133,6 +157,6 @@ public class SeguroController {
     @GetMapping("/")
     public ResponseEntity<List<SeguroDTO>> getAll() {
         List<SeguroDTO> listaSeguros = service.getAll();
-        return ResponseEntity.status(201).body(listaSeguros);
+        return ResponseEntity.ok(listaSeguros);
     }
 }
