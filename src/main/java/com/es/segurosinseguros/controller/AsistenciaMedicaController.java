@@ -35,6 +35,38 @@ public class AsistenciaMedicaController {
         if (asistenciaMedicaDTO == null) {
             throw new BadRequestException("Datos inválidos");
         }
+
+        //Validaciones necesarias
+        // Validación breveDescripcion
+        if (asistenciaMedicaDTO.getBreveDescripcion().isBlank()){
+            throw new BadRequestException("El campo 'breveDescripcion' no puede estar vacío.");
+        }
+        // Validación lugar
+        if (asistenciaMedicaDTO.getLugar().isBlank()) {
+            throw new BadRequestException("El campo 'lugar' no puede estar vacío.");
+        }
+        // Validación explicación
+        if (asistenciaMedicaDTO.getExplicacion().isBlank()) {
+            throw new BadRequestException("El campo 'explicacion' no puede estar vacío.");
+        }
+        // Validación tipoAsistencia
+        if (asistenciaMedicaDTO.getTipoAsistencia() == null){
+            throw new BadRequestException("El campo 'tipoAsistencia' no puede ser nulo.");
+        }
+        // Validación fecha
+        if (asistenciaMedicaDTO.getFecha() == null) {
+            throw new BadRequestException("El campo 'fecha' no puede ser nulo.");
+        }
+        // Validación hora
+        if (asistenciaMedicaDTO.getHora() == null) {
+            throw new BadRequestException("El campo 'hora' no puede ser nulo.");
+        }
+        // Validación importe
+        if (asistenciaMedicaDTO.getImporte() <= 0) {
+            throw new BadRequestException("El campo 'importe' debe ser mayor que 0.");
+        }
+
+
         AsistenciaMedicaDTO asistenciaCreada = service.insert(asistenciaMedicaDTO);
         return ResponseEntity.status(201).body(asistenciaCreada);
     }
@@ -70,6 +102,37 @@ public class AsistenciaMedicaController {
         if (id == null || id.isBlank()) {
             throw new BadRequestException("ID inválido.");
         }
+        //Validaciones necesarias
+        // Validación breveDescripcion
+        if (asistenciaMedicaDTO.getBreveDescripcion().isBlank()){
+            throw new BadRequestException("El campo 'breveDescripcion' no puede estar vacío.");
+        }
+        // Validación lugar
+        if (asistenciaMedicaDTO.getLugar().isBlank()) {
+            throw new BadRequestException("El campo 'lugar' no puede estar vacío.");
+        }
+        // Validación explicación
+        if (asistenciaMedicaDTO.getExplicacion().isBlank()) {
+            throw new BadRequestException("El campo 'explicacion' no puede estar vacío.");
+        }
+        // Validación tipoAsistencia
+        if (asistenciaMedicaDTO.getTipoAsistencia() == null){
+            throw new BadRequestException("El campo 'tipoAsistencia' no puede ser nulo.");
+        }
+        // Validación fecha
+        if (asistenciaMedicaDTO.getFecha() == null) {
+            throw new BadRequestException("El campo 'fecha' no puede ser nulo.");
+        }
+        // Validación hora
+        if (asistenciaMedicaDTO.getHora() == null) {
+            throw new BadRequestException("El campo 'hora' no puede ser nulo.");
+        }
+        // Validación importe
+        if (asistenciaMedicaDTO.getImporte() <= 0) {
+            throw new BadRequestException("El campo 'importe' debe ser mayor que 0.");
+        }
+
+
         AsistenciaMedicaDTO asistenciaModificada = service.modify(id, asistenciaMedicaDTO);
         return ResponseEntity.status(201).body(asistenciaModificada);
     }
