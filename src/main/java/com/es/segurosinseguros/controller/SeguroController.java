@@ -38,7 +38,7 @@ public class SeguroController {
         }
         // Validación de NIF
         if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
-            throw new BadRequestException("El campo NIF no tiene un formato válido.");
+            throw new BadRequestException("El campo 'NIF' no tiene un formato válido.");
         }
         // Validación del nombre
         if (seguroDTO.getNombre() == null || seguroDTO.getNombre().isBlank()) {
@@ -103,7 +103,7 @@ public class SeguroController {
         }
         // Validación de NIF
         if (!seguroDTO.getNif().matches("^[0-9]{8}[A-Z]$")) {
-            throw new BadRequestException("El campo NIF no tiene un formato válido.");
+            throw new BadRequestException("El campo 'NIF' no tiene un formato válido.");
         }
         // Validación del nombre
         if (seguroDTO.getNombre() == null || seguroDTO.getNombre().isBlank()) {
