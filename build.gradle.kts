@@ -1,6 +1,6 @@
 plugins {
-    java
-    war
+    id("java")
+    id("war")
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
 }
@@ -30,4 +30,8 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.war {
+    archiveFileName.set("miAplicacion.war")
 }
